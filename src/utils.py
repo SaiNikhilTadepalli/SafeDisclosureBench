@@ -1,4 +1,5 @@
 import os
+from typing import Any, Callable
 
 from inspect_ai.dataset import Dataset, Sample, csv_dataset
 
@@ -23,3 +24,14 @@ JAILBREAK_METHOD_REGISTRY = {
     "mentor_jailbreak": apply_mentor_jailbreak_prompt,
     "none": apply_no_jailbreak_prompt,
 }
+
+
+def get_prompt_modifier(method: str | Callable[[str], str]) -> Callable[[str], str]:
+    """Resolve a string name or custom function to a prompt modifier."""
+    if callable(method):
+        return method
+    if method in JAILBREAK_METHOD_REGISTRY:
+        return JAILBREAK_METHOD_REGISTRY[method]
+    raise ValueError(
+        f"Unknown jailbreak method: {method}. Available: {list(JAILBREAK_METHOD_REGISTRY.keys())}"
+    )
