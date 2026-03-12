@@ -35,3 +35,19 @@ def get_prompt_modifier(method: str | Callable[[str], str]) -> Callable[[str], s
     raise ValueError(
         f"Unknown jailbreak method: {method}. Available: {list(JAILBREAK_METHOD_REGISTRY.keys())}"
     )
+
+
+def get_record_to_sample(
+    prompt_modifier: Callable[[str], str],
+) -> Callable[[dict[str, Any]], Sample]:
+    def record_to_sample(record: dict[str, Any]) -> Sample:
+        disclosure_prompt = record.get("disclosure_prompt", "")
+
+        return Sample(
+            input=prompt_modifier(disclosure_prompt),
+            target="N/A",
+            id=create_stable_id(disclosure_prompt, prefix="safe_disclosure"),
+            metadata={"category": record.get("category")},
+        )
+
+    return record_to_sample
