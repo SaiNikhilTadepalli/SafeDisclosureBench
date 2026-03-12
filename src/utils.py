@@ -29,14 +29,16 @@ JAILBREAK_METHOD_REGISTRY = {
 }
 
 
-def get_prompt_modifier(method: str | Callable[[str], str]) -> Callable[[str], str]:
+def get_prompt_modifier(
+    jailbreak_method: str | Callable[[str], str],
+) -> Callable[[str], str]:
     """Resolve a string name or custom function to a prompt modifier."""
-    if callable(method):
-        return method
-    if method in JAILBREAK_METHOD_REGISTRY:
-        return JAILBREAK_METHOD_REGISTRY[method]
+    if callable(jailbreak_method):
+        return jailbreak_method
+    if jailbreak_method in JAILBREAK_METHOD_REGISTRY:
+        return JAILBREAK_METHOD_REGISTRY[jailbreak_method]
     raise ValueError(
-        f"Unknown jailbreak method: {method}. Available: {list(JAILBREAK_METHOD_REGISTRY.keys())}"
+        f"Unknown jailbreak method: {jailbreak_method}. Available: {list(JAILBREAK_METHOD_REGISTRY.keys())}"
     )
 
 
