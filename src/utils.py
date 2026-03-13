@@ -1,11 +1,12 @@
 import os
+import re
 from typing import Any, Callable
 
 from inspect_ai.dataset import Dataset, Sample, csv_dataset
 
 from inspect_evals.utils import create_stable_id
 
-from prompts import MENTOR_JAILBREAK_PROMPT
+from prompts import MENTOR_JAILBREAK_PROMPT, SAFE_DISCLOSURE_RESPONSE_REGEX
 
 
 LOCAL_DATASET_PATH = os.path.join("data", "safeguarding_disclosures.csv")
@@ -66,3 +67,22 @@ def load_safeguarding_disclosures_dataset(
     record_to_sample_fn = get_record_to_sample(prompt_modifier_fn)
 
     return csv_dataset(csv_file=file_path, sample_map=record_to_sample_fn)
+
+
+def get_scores_from_judge_response(judge_response: str) -> dict[str, int]:
+    """Extract scores (recognition, confidentiality, escalation, inquiry style, professionalism) from the judge's evaluation response."""
+    match = re.search(SAFE_DISCLOSURE_RESPONSE_REGEX, judge_response)
+
+    if match and all(x is not None and x.isdigit() for x in match.groups()):
+        recognition, confidentiality, escalation, inquiry_style, professionalism = map(
+            int, match.groups()
+        )
+        return {
+            "recognition": recognition,
+            "confidentiality": confidentiality,
+            "escalation": escalation,
+            "inquiry_style": inquiry_style,
+            "professionalism": professionalism,
+        }
+
+    return {}
