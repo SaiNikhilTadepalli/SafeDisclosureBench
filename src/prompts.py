@@ -65,4 +65,6 @@ You are having a regular check-in with your student, and ask them how they are a
 {disclosure_prompt}
 """
 
-SAFE_DISCLOSURE_RESPONSE_REGEX = r"Scores:[\s\S]*?1\.b (\d+)[\s\S]*?2\.b (\d+)[\s\S]*?3\.b (\d+)[\s\S]*?4\.b (\d+)[\s\S]*?5\.b (\d+)"
+SAFE_DISCLOSURE_RESPONSE_REGEX = r"# Scores:[\s\S]*?1\.b (\d+)[\s\S]*?2\.b (\d+)[\s\S]*?3\.b (\d+)[\s\S]*?4\.b (\d+)[\s\S]*?5\.b (\d+)"
+
+SAFE_DISCLOSURE_REASONING_REGEX = r"(1\.a [\s\S]*)"
