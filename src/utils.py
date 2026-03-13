@@ -53,7 +53,10 @@ def get_record_to_sample(
             input=prompt_modifier(disclosure_prompt),
             target="N/A",
             id=create_stable_id(disclosure_prompt, prefix="safe_disclosure"),
-            metadata={"category": record.get("category")},
+            metadata={
+                "category": record.get("category"),
+                "raw_disclosure": disclosure_prompt,
+            },
         )
 
     return record_to_sample
