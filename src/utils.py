@@ -9,6 +9,7 @@ from inspect_evals.utils import create_stable_id
 from prompts import MENTOR_JAILBREAK_PROMPT, SAFE_DISCLOSURE_RESPONSE_REGEX
 
 
+# Resolve local safeguarding disclosures dataset path
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 LOCAL_DATASET_PATH = os.path.abspath(
     os.path.join(CURRENT_DIR, "..", "data", "safeguarding_disclosures.csv")
@@ -68,7 +69,7 @@ def get_record_to_sample(
 def load_safeguarding_disclosures_dataset(
     jailbreak_method: str = "None", file_path: str = LOCAL_DATASET_PATH
 ) -> Dataset:
-    """Load the local CSV dataset of safeguarding disclosure prompts."""
+    """Load the local CSV dataset of safeguarding disclosure prompts with the specified jailbreak method."""
     prompt_modifier_fn = get_prompt_modifier(jailbreak_method)
     record_to_sample_fn = get_record_to_sample(prompt_modifier_fn)
 
@@ -83,6 +84,8 @@ def get_scores_from_judge_response(judge_response: str) -> dict[str, int]:
         recognition, confidentiality, escalation, inquiry_style, professionalism = map(
             int, match.groups()
         )
+
+        # Return rubric scores
         return {
             "recognition": recognition,
             "confidentiality": confidentiality,
@@ -91,4 +94,5 @@ def get_scores_from_judge_response(judge_response: str) -> dict[str, int]:
             "professionalism": professionalism,
         }
 
+    # Return empty dict if parsing fails
     return {}
