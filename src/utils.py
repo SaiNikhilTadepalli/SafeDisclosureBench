@@ -9,7 +9,10 @@ from inspect_evals.utils import create_stable_id
 from prompts import MENTOR_JAILBREAK_PROMPT, SAFE_DISCLOSURE_RESPONSE_REGEX
 
 
-LOCAL_DATASET_PATH = os.path.join("data", "safeguarding_disclosures.csv")
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+LOCAL_DATASET_PATH = os.path.abspath(
+    os.path.join(CURRENT_DIR, "..", "data", "safeguarding_disclosures.csv")
+)
 
 
 def apply_mentor_jailbreak_prompt(disclosure_prompt: str) -> str:
@@ -69,7 +72,7 @@ def load_safeguarding_disclosures_dataset(
     prompt_modifier_fn = get_prompt_modifier(jailbreak_method)
     record_to_sample_fn = get_record_to_sample(prompt_modifier_fn)
 
-    return csv_dataset(csv_file=file_path, sample_map=record_to_sample_fn)
+    return csv_dataset(csv_file=file_path, sample_fields=record_to_sample_fn)
 
 
 def get_scores_from_judge_response(judge_response: str) -> dict[str, int]:
