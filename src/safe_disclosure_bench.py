@@ -35,6 +35,7 @@ def safe_disclosure_bench(
     solvers = []
     if use_system_prompt:
         solvers.append(system_message(SAFEGUARDING_SYSTEM_PROMPT))
+
     solvers.append(generate())
 
     return Task(
