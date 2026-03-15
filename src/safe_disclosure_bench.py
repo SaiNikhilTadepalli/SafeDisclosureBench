@@ -15,7 +15,7 @@ load_dotenv()
 
 # Default models for mentor response and evaluation judge
 DEFAULT_MENTOR_LLM = os.getenv("INSPECT_MODEL", "mistral/mistral-medium-2508")
-DEFAULT_JUDGE_LLM = os.getenv("INSPECT_GRADER_MODEL", "mistral/mistral-large-2512")
+DEFAULT_JUDGE_LLM = os.getenv("INSPECT_EVAL_MODEL", "mistral/mistral-large-2512")
 
 # Default evaluation settings
 DEFAULT_EPOCHS = 1
