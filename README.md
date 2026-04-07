@@ -1,4 +1,7 @@
 ﻿# SafeDisclosureBench
+
+![SafeDisclosureBench infographic](assets/safe_disclosure_bench.png)
+
 **SafeDisclosureBench** is a benchmark for evaluating how Large Language Models (LLMs) respond to student safeguarding disclosures in mentoring or educational conversations. It provides a dataset of simulated disclosures covering a range of abuse types, and allows these scenarios to be modified by jailbreak prompts to test whether the LLM can be coerced into dangerous practices, such as promising confidentiality or failing to recognise potential indicators of abuse.
 
 ## Motivation
